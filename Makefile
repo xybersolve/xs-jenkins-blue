@@ -1,3 +1,11 @@
+#@echo
+#@echo "Make & Register xs-jenkins-blue to docker.io/$(ORG)"
+#@echo 'make build'
+#@echo 'make tag'
+#@echo 'make login'
+#@echo 'make push'
+#@echo
+
 .PHONY: build tag push test deploy archive ssh help tag login push \
 				tag-ecr login-ecr push-ecr
 
@@ -93,13 +101,7 @@ archive: ## Archive image locally (compressed tar file)
 ssh: ## SSH into image
 	@docker run -it --rm $(IMAGE):latest /bin/bash
 
-help: ## This help file
+help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
-	| sort \
-	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
-
-	@echo
-	@echo "Make & Register xs-jenkins-blue to docker.io/$(ORG)"
-	@echo 'make build'
-	@echo 'make tag'
-	@echo 'make push'
+		| sort \
+		| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
